@@ -251,8 +251,9 @@ export default function TabGroupPanel({
     />
   )
 
+  // Why: shrinks and clips before the tab bar's floor, so narrow panes keep a grabbable tab and reserved spacers stay clear.
   const actionChromeClassName = cn(
-    'ml-1.5 flex shrink-0 items-center gap-0.5 transition-opacity duration-150',
+    'flex min-w-0 items-center gap-0.5 overflow-hidden pl-1.5 pr-0.5 transition-opacity duration-150',
     !isFocused && 'opacity-50 hover:opacity-100 focus-within:opacity-100'
   )
   return (
@@ -289,7 +290,7 @@ export default function TabGroupPanel({
           data-terminal-focus-release-surface="true"
           data-worktree-id={worktreeId}
         >
-          <div className="flex h-full items-stretch pr-1.5">
+          <div className="flex h-full items-stretch pr-1">
             {/* Why: Electron drag hit-test respects no-drag only on DOM descendants, not z-index siblings, so this no-drag spacer keeps the collapsed left-sidebar's floating toggle clickable. */}
             {reserveCollapsedSidebarHeaderSpace && !sidebarOpen ? (
               <div
@@ -302,7 +303,7 @@ export default function TabGroupPanel({
                 }
               />
             ) : null}
-            <div className="min-w-0 flex-1 h-full">{tabBar}</div>
+            <div className="min-w-10 flex-1 h-full">{tabBar}</div>
             <div
               className={actionChromeClassName}
               style={{ WebkitAppRegion: 'no-drag' } as React.CSSProperties}
